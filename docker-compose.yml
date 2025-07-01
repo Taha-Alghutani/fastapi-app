@@ -9,3 +9,19 @@ services:
     ports:
       - "8000:8000"
     restart: always
+    networks:
+      - fastapi_network
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - fastapi_app
+    networks:
+      - fastapi_network
+networks:
+  fastapi_network:
+    driver: bridge
